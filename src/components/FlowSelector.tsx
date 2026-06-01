@@ -1,0 +1,140 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, Globe2, ArrowRight, Loader2 } from 'lucide-react';
+import type { City, Country } from '@/lib/types';
+import { API_URL } from '@/lib/api';
+
+export function FlowSelector({ countries }: { countries: Country[] }) {
+  const router = useRouter();
+  const [country, setCountry] = useState<Country | null>(null);
+  const [cities, setCities] = useState<City[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  async function selectCountry(c: Country) {
+    setCountry(c);
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/countries/${c.slug}/cities`);
+      const data = await res.json();
+      setCities(data.cities ?? []);
+    } catch {
+      setCities([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <section id="flow" className="container-page -mt-12 pb-8">
+      <div className="rounded-3xl border border-saffron-100 bg-white p-6 shadow-glow sm:p-10">
+        {/* Steps header */}
+        <div className="mb-8 flex items-center gap-4 text-sm font-semibold">
+          <Step n={1} label="Choose Country" active={!country} done={!!country} />
+          <div className="h-px flex-1 bg-saffron-100" />
+          <Step n={2} label="Choose City" active={!!country} done={false} />
+          <div className="h-px flex-1 bg-saffron-100" />
+          <Step n={3} label="All Pujas" active={false} done={false} />
+        </div>
+
+        <AnimatePresence mode="wait">
+          {!country ? (
+            <motion.div
+              key="countries"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h3 className="mb-4 flex items-center gap-2 font-display text-xl font-bold">
+                <Globe2 className="h-5 w-5 text-saffron-600" /> Where would you like the puja?
+              </h3>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+                {countries.map((c) => (
+                  <button
+                    key={c.id || c.slug}
+                    onClick={() => selectCountry(c)}
+                    className="group flex flex-col items-start gap-2 rounded-2xl border border-saffron-100 bg-cream p-4 text-left transition-all hover:-translate-y-1 hover:border-saffron-300 hover:shadow-soft"
+                  >
+                    <span className="text-3xl">{c.flagEmoji ?? '🌍'}</span>
+                    <span className="font-semibold">{c.name}</span>
+                    {c._count?.cities ? (
+                      <span className="text-xs text-ink/50">{c._count.cities} cities</span>
+                    ) : null}
+                  </button>
+                ))}
+                {countries.length === 0 && (
+                  <p className="col-span-full text-sm text-ink/50">
+                    Connect the API to load countries.
+                  </p>
+                )}
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="cities"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="flex items-center gap-2 font-display text-xl font-bold">
+                  <MapPin className="h-5 w-5 text-saffron-600" /> Choose your city in {country.name}
+                </h3>
+                <button
+                  onClick={() => setCountry(null)}
+                  className="text-sm font-medium text-saffron-600 hover:underline"
+                >
+                  ← Change country
+                </button>
+              </div>
+
+              {loading ? (
+                <div className="flex items-center gap-2 py-10 text-ink/50">
+                  <Loader2 className="h-5 w-5 animate-spin" /> Loading cities…
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                  {cities.map((city) => (
+                    <button
+                      key={city.id}
+                      onClick={() => router.push(`/city/${city.slug}`)}
+                      className="group flex items-center justify-between rounded-2xl border border-saffron-100 bg-cream p-4 text-left transition-all hover:-translate-y-1 hover:border-saffron-300 hover:shadow-soft"
+                    >
+                      <span>
+                        <span className="block font-semibold">{city.name}</span>
+                        {city.state && <span className="text-xs text-ink/50">{city.state}</span>}
+                      </span>
+                      <ArrowRight className="h-4 w-4 text-saffron-400 transition-transform group-hover:translate-x-1" />
+                    </button>
+                  ))}
+                  {cities.length === 0 && (
+                    <p className="col-span-full text-sm text-ink/50">No cities yet for {country.name}.</p>
+                  )}
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </section>
+  );
+}
+
+function Step({ n, label, active, done }: { n: number; label: string; active: boolean; done: boolean }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span
+        className={`grid h-7 w-7 place-items-center rounded-full text-xs font-bold transition-colors ${
+          active || done ? 'bg-saffron-gradient text-white' : 'bg-saffron-100 text-saffron-600'
+        }`}
+      >
+        {n}
+      </span>
+      <span className={`hidden sm:inline ${active ? 'text-ink' : 'text-ink/50'}`}>{label}</span>
+    </div>
+  );
+}
