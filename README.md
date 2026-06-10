@@ -1,5 +1,10 @@
 # frontend-namanpuja
 
+> 🚀 **New to the project?** Read the full setup guide:
+> **[ONBOARDING.md](https://github.com/PriyanshuGeTRekT/backend-namanpuja/blob/main/ONBOARDING.md)**
+> (install everything → run the whole stack with `docker compose up`). The four repos
+> must be cloned as siblings in one folder.
+
 The public website for [namanpuja.com](https://namanpuja.com) — book authentic Vedic pujas at home or online.
 
 ## Tech stack
