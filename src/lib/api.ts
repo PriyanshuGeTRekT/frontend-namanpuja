@@ -1,6 +1,13 @@
 import type { City, Country, Puja, PujaLocation, Temple } from './types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api';
+// On the server (SSR/SSG/Docker), prefer API_INTERNAL_URL so the container can
+// reach the backend over the internal network (e.g. http://backend:4000/api).
+// In the browser, always use the public NEXT_PUBLIC_API_URL. Falls back cleanly
+// when API_INTERNAL_URL isn't set (e.g. on Vercel), so this is production-safe.
+const API_URL =
+  (typeof window === 'undefined'
+    ? process.env.API_INTERNAL_URL ?? process.env.NEXT_PUBLIC_API_URL
+    : process.env.NEXT_PUBLIC_API_URL) ?? 'http://localhost:4000/api';
 
 interface FetchOpts {
   /** ISR revalidate seconds (server components). */
