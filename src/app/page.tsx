@@ -6,6 +6,7 @@ import { FlowSelector } from '@/components/FlowSelector';
 import { HowItWorks } from '@/components/HowItWorks';
 import { PujaCard } from '@/components/PujaCard';
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/motion';
+import { PujaSection } from '../components/PujaSection.tsx';
 
 export const revalidate = 300;
 
@@ -27,21 +28,22 @@ export default async function HomePage() {
 
       {/* Featured pujas */}
       <section id="pujas" className="container-page py-20">
-        <Reveal className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
-          <div className="max-w-2xl">
-            <span className="badge"><Sparkles className="h-3.5 w-3.5" /> Popular ceremonies</span>
-            <h2 className="section-title mt-4">Pujas performed with devotion</h2>
+        <Reveal className="flex flex-col  items-center justify-between gap-4 sm:flex-row sm:items-end">
+          <div className="w-full text-center">
+            <span className="badge"><Sparkles className="h-3.5 w-3.5 " /> Popular ceremonies</span>
+            <h2 className="section-title mt-4 text-center w-full block ">Pujas performed with devotion</h2>
             <p className="mt-3 text-ink/60">
               Authentic Vedic rituals for every occasion — at your home or online, performed by
               experienced priests.
             </p>
           </div>
-          <Link href="/book" className="btn-ghost shrink-0">
+          {/* <Link href="/book" className="btn-ghost shrink-0">
             View all pujas <ArrowRight className="h-4 w-4" />
-          </Link>
+          </Link> */}
         </Reveal>
 
-        <StaggerGroup className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <PujaSection/>
+        {/* <StaggerGroup className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {pujaList.map((p) => (
             <StaggerItem key={p.id || p.slug}>
               <PujaCard puja={p} />
@@ -50,7 +52,7 @@ export default async function HomePage() {
           {pujaList.length === 0 && (
             <p className="text-ink/50">Connect the API to load the puja catalog.</p>
           )}
-        </StaggerGroup>
+        </StaggerGroup> */}
       </section>
 
       <HowItWorks />
@@ -94,7 +96,7 @@ export default async function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="container-page py-20">
+      <section className="container-page py-20 ">
         <Reveal className="overflow-hidden rounded-3xl bg-saffron-gradient px-8 py-14 text-center text-white shadow-glow sm:px-16">
           <h2 className="font-display text-3xl font-extrabold sm:text-4xl">
             Honor Tradition. Celebrate Family. Receive Divine Blessings.

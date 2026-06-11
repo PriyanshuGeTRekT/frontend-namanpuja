@@ -1,61 +1,169 @@
-import Link from 'next/link';
-import { Flame, Mail, Phone, MapPin } from 'lucide-react';
+'use client';
+import Link from "next/link";
+import { useRouter } from "next/navigation";import {
+  Phone,
+  Mail,
+  MapPin,
+  Facebook,
+  Instagram,
+  Youtube,
+  Linkedin
+} from "lucide-react";
+import namanLogo from "@/assets/naman.webp";
+// import { openWhatsApp } from "@/services/native";
 
-export function Footer() {
-  const year = 2026;
+const Footer = () => {
+  const router = useRouter();
+  const quickLinks = [
+    { name: "Kedarnath Yatra", href: "/kedarnath-yatra" },
+    { name: "Vrindavan Yatra", href: "/vrindavan-yatra" },
+    { name: "Ayodhya Ram Mandir", href: "/ayodhya-yatra" },
+
+    { name: "Live Darshan", href: "/live-darshan" },
+  ];
+
+  const services: { name: string; href?: string }[] = [
+    { name: "Temple Darshan", href: "/temples" },
+    { name: "Puja Services", href: "/puja" },
+    { name: "Chadhava Seva", href: "/chadhava" },
+    { name: "Prasadam Seva", href: "/prasadam" },
+    { name: "Astro Services", href: "/astro-naman" },
+    { name: "International Temple", },
+  ];
+
+  const support = [
+    { name: "About Us", href: "/about-us" },
+    { name: "News & Events", href: "/news-events" },
+    { name: "Blogs", href: "/blogs" },
+    { name: "Gallery", href: "/gallery" },
+    {name:"Media", href:"/media/aarti"},
+    { name: "Volunteer", href: "/volunteer" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms & Conditions", href: "/terms-conditions" },
+    { name: "Disclaimer", href: "/disclaimer" },
+  ];
+
   return (
-    <footer className="mt-24 border-t border-saffron-100 bg-white">
-      <div className="container-page grid gap-10 py-14 md:grid-cols-4">
-        <div className="md:col-span-1">
-          <div className="flex items-center gap-2">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-saffron-gradient text-white">
-              <Flame className="h-5 w-5" />
-            </span>
-            <span className="font-display text-xl font-bold">
-              Naman<span className="text-saffron-600">Puja</span>
-            </span>
+    <footer className="bg-gray-900 text-white">
+      {/* Main Footer */}
+      <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          {/* Brand Column */}
+          <div className="space-y-6 ml-8">
+            <Link href="/" className="flex flex-col items-start leading-none">
+              {/* <img src={namanLogo} alt="Naman" className="h-20 w-auto object-contain" /> */}
+              <img src="/images/Namanpuja_Logo.png" alt="Namanpuja Logo" className="h-28 w-auto pl-8 object-contain"/>
+              <span className="text-[15px] font-bold text-primary uppercase tracking-[0.05em] mt-1 whitespace-nowrap opacity-80">
+                Seva • Suvidha • Samarpan
+              </span>
+            </Link>
+            <p className="text-white/70 leading-relaxed">
+              Experience divine ease with Guided Darshan Assistance from Naman Darshan. A knowledgeable Pandit Ji will accompany you, guide you through the temple, and share insights about the temple's history and significance, prioritizing tranquility and reverence.
+            </p>
+            <div className="flex gap-4">
+              <a href="https://www.facebook.com/people/Naman-Darshan/61562897897801/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a href="https://www.instagram.com/namandarshanofficial/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="https://www.youtube.com/@Naman.Darshan?themeRefresh=1" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+                <Youtube className="w-5 h-5" />
+              </a>
+              <a href="https://www.linkedin.com/company/naman-darshan/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+                <Linkedin className="w-5 h-5" />
+              </a>
+            </div>
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-ink/60">
-            Authentic Vedic pujas performed by experienced priests — at your home or online.
-            Preserving Hindu traditions across generations.
-          </p>
-        </div>
+          {/* Contact Info / Company Links */}
+          <div className="lg:pl-12">
+            <h4 className="font-display text-xl font-semibold mb-6">Quick Links</h4>
+            <ul className="space-y-3">
+              {support.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="text-white/70 hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <div>
-          <h4 className="font-display font-semibold">Services</h4>
-          <ul className="mt-4 space-y-2 text-sm text-ink/60">
-            <li><Link href="/#pujas" className="hover:text-saffron-600">Home Visit Puja</Link></li>
-            <li><Link href="/#pujas" className="hover:text-saffron-600">Online e-Puja</Link></li>
-            <li><Link href="/#pujas" className="hover:text-saffron-600">Griha Pravesh</Link></li>
-            <li><Link href="/#temples" className="hover:text-saffron-600">Temples</Link></li>
-          </ul>
-        </div>
+          {/* Quick Links */}
+          <div className="lg:pl-12">
+            <h4 className="font-display text-xl font-semibold mb-6">Popular Yatras</h4>
+            <ul className="space-y-3">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="text-white/70 hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <div>
-          <h4 className="font-display font-semibold">Company</h4>
-          <ul className="mt-4 space-y-2 text-sm text-ink/60">
-            <li><Link href="/#how-it-works" className="hover:text-saffron-600">How it works</Link></li>
-            <li><Link href="/book" className="hover:text-saffron-600">Book a Puja</Link></li>
-            <li><Link href="/#cities" className="hover:text-saffron-600">Cities we serve</Link></li>
-          </ul>
-        </div>
+          {/* Services */}
+          <div className="lg:pl-12">
+            <h4 className="font-display text-xl font-semibold mb-6">Our Services</h4>
+            <ul className="space-y-3">
+              {services.map((link) => (
+                <li key={link.name}>
+                  {link.name === "International Temple" ? (
+                    <button
+                      onClick={() => {
+                          router.push('/darshan?category=international#available-darshans');                      }}
+                      className="text-white/70 hover:text-primary transition-colors text-left"
+                    >
+                      {link.name}
+                    </button>
+                  ) : link.href?.startsWith("http") ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/70 hover:text-primary transition-colors"
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href!}
+                      className="text-white/70 hover:text-primary transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <div>
-          <h4 className="font-display font-semibold">Contact</h4>
-          <ul className="mt-4 space-y-3 text-sm text-ink/60">
-            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-saffron-500" /> hello@namanpuja.com</li>
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-saffron-500" /> +91 00000 00000</li>
-            <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-saffron-500" /> Serving India & abroad</li>
-          </ul>
+
         </div>
       </div>
 
-      <div className="border-t border-saffron-100">
-        <div className="container-page flex flex-col items-center justify-between gap-2 py-6 text-xs text-ink/50 sm:flex-row">
-          <p>© {year} Naman Puja. All rights reserved.</p>
-          <p>Honor Tradition · Celebrate Family · Receive Divine Blessings</p>
+      {/* Bottom Bar */}
+      <div className="border-t border-white/10">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-white/50 text-sm text-center">
+              Copyright 2026 by NAMANDARSHAN (Namandarshan is an alliance of Traininglobe Consultancy Private Limited)
+            </p>
+            <p className="text-white/50 text-xs text-center max-w-xl">
+              Guided Darshan Assistance is designed to provide dedicated guide and accompaniment services from local Pandit Jis for temple visits.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

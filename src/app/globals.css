@@ -6,7 +6,10 @@
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Poppins', Georgia, serif;
 }
-
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
 html {
   scroll-behavior: smooth;
 }

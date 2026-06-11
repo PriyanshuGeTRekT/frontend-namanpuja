@@ -13,22 +13,29 @@ export function FlowSelector({ countries }: { countries: Country[] }) {
   const [cities, setCities] = useState<City[]>([]);
   const [loading, setLoading] = useState(false);
 
-  async function selectCountry(c: Country) {
-    setCountry(c);
-    setLoading(true);
-    try {
-      const res = await fetch(`${API_URL}/countries/${c.slug}/cities`);
-      const data = await res.json();
-      setCities(data.cities ?? []);
-    } catch {
-      setCities([]);
-    } finally {
-      setLoading(false);
-    }
+ async function selectCountry(c: Country) {
+  setCountry(c);
+  setLoading(true);
+  try {
+    const url = `${API_URL}/countries/${c.slug}/cities`;
+    console.log('Fetching:', url);
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log('Response data:', data);
+    console.log('Cities array:', data.cities);
+    console.log('Cities length:', data.cities?.length);
+    setCities(data.cities ?? []);
+    console.log('State set to:', data.cities ?? []);
+  } catch (e) {
+    console.log('Fetch error:', e);
+    setCities([]);
+  } finally {
+    setLoading(false);
   }
+}
 
   return (
-    <section id="flow" className="container-page -mt-12 pb-8">
+    <section id="flow" className="container-page -mt-12 pb-8 pt-36">
       <div className="rounded-3xl border border-saffron-100 bg-white p-6 shadow-glow sm:p-10">
         {/* Steps header */}
         <div className="mb-8 flex items-center gap-4 text-sm font-semibold">
