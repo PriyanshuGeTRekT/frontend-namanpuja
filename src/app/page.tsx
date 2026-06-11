@@ -58,7 +58,7 @@ export default async function HomePage() {
       <HowItWorks />
 
       {/* Temples */}
-      <section id="temples" className="bg-saffron-radial py-20">
+      {/* <section id="temples" className="bg-saffron-radial py-20">
         <div className="container-page">
           <Reveal className="mx-auto max-w-2xl text-center">
             <span className="badge"><Landmark className="h-3.5 w-3.5" /> Sacred destinations</span>
@@ -93,7 +93,7 @@ export default async function HomePage() {
             )}
           </StaggerGroup>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA */}
       <section className="container-page py-20 ">
